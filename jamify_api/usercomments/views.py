@@ -1,27 +1,27 @@
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import AllowAny
-from .models import User
+from .models import UserComment
 from .permissions import IsUserOrReadOnly
-from .serializers import CreateUserSerializer, UserSerializer
+from .serializers import CreateUserCommentSerializer, UserCommentSerializer
 
 
-class UserViewSet(mixins.RetrieveModelMixin,
+class UserCommentViewSet(mixins.RetrieveModelMixin,
                   mixins.UpdateModelMixin,
                   viewsets.GenericViewSet):
     """
     Updates and retrieves user accounts
     """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (IsUserOrReadOnly,)
+    queryset = UserComment.objects.all()
+    serializer_class = UserCommentSerializer
+    permission_classes = (AllowAny,)
 
 
-class UserCreateViewSet(mixins.CreateModelMixin,
+class UserCommentCreateViewSet(mixins.CreateModelMixin,
                         mixins.ListModelMixin,
                         viewsets.GenericViewSet):
     """
     Creates user accounts
     """
-    queryset = User.objects.all()
-    serializer_class = CreateUserSerializer
+    queryset = UserComment.objects.all()
+    serializer_class = CreateUserCommentSerializer
     permission_classes = (AllowAny,)

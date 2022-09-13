@@ -21,10 +21,14 @@ class Common(Configuration):
         'rest_framework',            # utilities for rest apis
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
+        'django_extensions',
 
         # Your apps
         'jamify_api.users',
-
+        'jamify_api.usercomments',
+        'jamify_api.audioclips',
+        'jamify_api.core',
+        'jamify_api.common',
     )
 
     # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
@@ -53,7 +57,7 @@ class Common(Configuration):
     # Postgres
     DATABASES = {
         'default': dj_database_url.config(
-            default='postgres://jamify:Pass123@localhost:5432/postgres',
+            default='postgres://jamify:Pass123@localhost:5432/jamify',
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
     }
