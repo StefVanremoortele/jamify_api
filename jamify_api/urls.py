@@ -11,12 +11,14 @@ from .audioclips.views import AudioClipViewSet, AudioClipCreateViewSet
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'users', UserCreateViewSet)
-router.register(r'audioclips', AudioClipViewSet)
-router.register(r'audioclips', AudioClipCreateViewSet)
+# router.register(r'audioclips', AudioClipViewSet)
+# router.register(r'audioclips', AudioClipCreateViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
+    path('api/v1/audioclips/', include(('jamify_api.audioclips.urls', 'users'))),
     path('api-token-auth/', views.obtain_auth_token),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
@@ -25,3 +27,5 @@ urlpatterns = [
     re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
