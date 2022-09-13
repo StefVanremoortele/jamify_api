@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .apis import AudioClipListApi
+from .apis import AudioClipApi
 
 
 urlpatterns = [
-    path('', AudioClipListApi.as_view(), name='list')
+    path('', AudioClipApi.as_view(), name='list')
 ]

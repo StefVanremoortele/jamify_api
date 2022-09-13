@@ -1,27 +1,28 @@
 from rest_framework.views import APIView
 from rest_framework import serializers
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 from jamify_api.utils.pagination import get_paginated_response, LimitOffsetPagination
-
 from jamify_api.audioclips.models import AudioClip
 from jamify_api.audioclips.selectors import audioclip_list
+from jamify_api.audioclips.services import create_audioclip
 
 
 
 # TODO: When JWT is resolved, add authenticated version
-class AudioClipListApi(APIView):
+class AudioClipApi(APIView):
     permission_classes = [AllowAny]
 
     class Pagination(LimitOffsetPagination):
-        default_limit = 1
+        default_limit = 10              
 
     class FilterSerializer(serializers.Serializer):
         id = serializers.IntegerField(required=False)
         filename = serializers.CharField(required=False)
-        # Important: If we use BooleanField, it will default to False
-        # is_admin = serializers.NullBooleanField(required=False)
-        # email = serializers.EmailField(required=False)
+
+    class InputSerializer(serializers.Serializer):
+        filename = serializers.CharField()
 
     class OutputSerializer(serializers.ModelSerializer):
         class Meta:
@@ -45,3 +46,11 @@ class AudioClipListApi(APIView):
             request=request,
             view=self
         )
+
+    def post(self, request):
+        serializer = self.InputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        audioclip = create_audioclip(filename=serializer.data['filename'])
+
+        return Response(self.OutputSerializer(audioclip).data)
