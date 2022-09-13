@@ -126,7 +126,7 @@ class Common(Configuration):
 
     # Logging
     LOGGING = {
-        'version': 1,
+        'version': 2,
         'disable_existing_loggers': False,
         'formatters': {
             'django.server': {
